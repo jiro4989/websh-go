@@ -1,0 +1,32 @@
+= websh-go
+:toc: left
+:sectnums:
+
+webshのAPIラッパーコマンドラインツール。
+
+== インストール
+
+まだ開発途中なので配布してない。
+ビルドすれば使える。
+
+[source,bash]
+----
+$ go build -o websh
+----
+
+== 使い方
+
+[source,bash]
+----
+$ websh 'echo "hello world"'
+----
+
+[source,bash]
+----
+$ echo 'ls' | websh
+----
+
+[source,bash]
+----
+$ echo 'ls' | websh -j
+----
