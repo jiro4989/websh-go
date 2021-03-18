@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -9,6 +10,11 @@ import (
 )
 
 type CLIConfig struct {
+	UseJSONOutput bool
+}
+
+type Config struct {
+	UseJSONOutput bool
 }
 
 const (
@@ -16,9 +22,14 @@ const (
 	version = "dev"
 )
 
+var (
+	config CLIConfig
+)
+
 func init() {
 	cobra.OnInitialize()
 	rootCommand.Flags().SortFlags = false
+	rootCommand.Flags().BoolVarP(&config.UseJSONOutput, "json-output", "j", false, "set output format to json")
 }
 
 
@@ -42,6 +53,10 @@ var rootCommand = &cobra.Command{
 }
 
 func runRootCommand(cmd *cobra.Command, args []string) error {
+	conf := Config {
+		UseJSONOutput: config.UseJSONOutput,
+	}
+
 	// 引数がない時は標準入力を受け取る
 	if len(args) < 1 {
 		b , err := io.ReadAll(os.Stdin)
@@ -49,21 +64,21 @@ func runRootCommand(cmd *cobra.Command, args []string) error {
 			return err
 		}
 		code := string(b)
-		if err := runShellgei(code); err != nil {
+		if err := runShellgei(code, conf); err != nil {
 			return err
 		}
 		return nil
 	}
 
 	code := args[0]
-	if err := runShellgei(code); err != nil {
+	if err := runShellgei(code, conf); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func runShellgei(code string) error {
+func runShellgei(code string, conf Config) error {
 	req := &RequestParamPostShellgei{
 		Code: code,
 		Images: []string{},
@@ -73,6 +88,15 @@ func runShellgei(code string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(resp.Stdout)
+
+	out := resp.Stdout
+	if conf.UseJSONOutput{
+		b, err := json.Marshal(&resp)
+		if err != nil {
+			return err
+		}
+		out = string(b)
+	}
+	fmt.Println(out)
 	return nil
 }
