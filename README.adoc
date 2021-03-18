@@ -30,3 +30,10 @@ $ echo 'ls' | websh
 ----
 $ echo 'ls' | websh -j
 ----
+
+== ヘルプ
+
+[source,bash]
+----
+$ websh -h
+----
