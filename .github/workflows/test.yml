@@ -1,0 +1,52 @@
+name: test
+
+on:
+  push:
+    paths-ignore:
+      - README*
+      - LICENSE
+  pull_request:
+    paths-ignore:
+      - README*
+      - LICENSE
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [ '1.15', '1.x' ]
+    name: build go ${{ matrix.go }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
+      - run: go build -o websh
+      - run: ./websh -h
+      - run: go install
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: go test -cover ./...
+
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   needs: before
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: golangci-lint
+  #       uses: golangci/golangci-lint-action@v2
+  #       with:
+  #         version: v1.29
+  # 
+  # coverage:
+  #   runs-on: ubuntu-latest
+  #   needs: before
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Build base image
+  #       run: docker-compose run coverage
+  #     - uses: codecov/codecov-action@v1
