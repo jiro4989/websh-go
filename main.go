@@ -32,7 +32,6 @@ func init() {
 	rootCommand.Flags().BoolVarP(&config.UseJSONOutput, "json-output", "j", false, "set output format to json")
 }
 
-
 func main() {
 	os.Exit(Main())
 }
@@ -45,7 +44,7 @@ func Main() int {
 }
 
 var rootCommand = &cobra.Command{
-	Use:	appName,
+	Use:     appName,
 	Short:   appName + " is websh cli",
 	Example: appName + ` "echo hello world"`,
 	Version: version,
@@ -53,13 +52,13 @@ var rootCommand = &cobra.Command{
 }
 
 func runRootCommand(cmd *cobra.Command, args []string) error {
-	conf := Config {
+	conf := Config{
 		UseJSONOutput: config.UseJSONOutput,
 	}
 
 	// 引数がない時は標準入力を受け取る
 	if len(args) < 1 {
-		b , err := io.ReadAll(os.Stdin)
+		b, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			return err
 		}
@@ -80,7 +79,7 @@ func runRootCommand(cmd *cobra.Command, args []string) error {
 
 func runShellgei(code string, conf Config) error {
 	req := &RequestParamPostShellgei{
-		Code: code,
+		Code:   code,
 		Images: []string{},
 	}
 	c := NewClient(WebshHost)
@@ -90,7 +89,7 @@ func runShellgei(code string, conf Config) error {
 	}
 
 	out := resp.Stdout
-	if conf.UseJSONOutput{
+	if conf.UseJSONOutput {
 		b, err := json.Marshal(&resp)
 		if err != nil {
 			return err

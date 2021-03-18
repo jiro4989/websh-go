@@ -12,11 +12,11 @@ import (
 type (
 	Client struct {
 		Client *http.Client
-		Host string
+		Host   string
 	}
 
 	RequestParamPostShellgei struct {
-		Code string `json:"code"`
+		Code   string   `json:"code"`
 		Images []string `json:"images"`
 	}
 	ResponseParamPostShellgei struct {
@@ -35,7 +35,7 @@ func NewClient(host string) *Client {
 	}
 	return &Client{
 		Client: c,
-		Host: host,
+		Host:   host,
 	}
 }
 
@@ -46,7 +46,7 @@ func (c *Client) PostShellgei(p *RequestParamPostShellgei) (*ResponseParamPostSh
 	}
 
 	body := bytes.NewBuffer(jsonBody)
-	resp,err := c.Client.Post(c.url("/shellgei"), "application/json", body)
+	resp, err := c.Client.Post(c.url("/shellgei"), "application/json", body)
 	if err != nil {
 		return nil, err
 	}
