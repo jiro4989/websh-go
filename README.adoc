@@ -2,7 +2,7 @@
 :toc: left
 :sectnums:
 
-webshのAPIラッパーコマンドラインツール。
+https://github.com/jiro4989/websh[websh]のAPIラッパーコマンドラインツール。
 
 == インストール
 
