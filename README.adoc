@@ -6,10 +6,10 @@ https://github.com/jiro4989/websh[websh]のAPIラッパーコマンドライン�
 
 == インストール
 
-まだ開発途中なので配布してない。
-ビルドすれば使える。
+https://github.com/jiro4989/websh-go/releases[Releases]からインストール可能です。
 
-Go 1.16以上じゃないとビルドできない。
+あるいはビルドしてインストール可能です。
+Go 1.16以上が必要です。
 
 [source,bash]
 ----
