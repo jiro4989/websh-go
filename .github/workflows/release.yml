@@ -26,6 +26,7 @@ jobs:
         run: |
           go build -o ${{ env.app }} ${{ env.build_opts }}
           if [[ $GOOS = windows ]]; then
+            mv ${{ env.app }} ${{ env.app }}.exe
             7z a ${{ env.app }}-$GOOS-$GOARCH.zip ./${{ env.app }}.exe
           else
             tar czf ${{ env.app }}-$GOOS-$GOARCH.tar.gz ./${{ env.app }}
