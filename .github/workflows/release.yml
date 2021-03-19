@@ -24,7 +24,7 @@ jobs:
           go-version: ${{ env.goversion }}
       - name: Build
         run: |
-          go build ${{ env.build_opts }}
+          go build -o ${{ env.app }} ${{ env.build_opts }}
           if [[ $GOOS = windows ]]; then
             7z a ${{ env.app }}-$GOOS-$GOARCH.zip ./${{ env.app }}.exe
           else
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/setup-go@v1
         with:
           go-version: ${{ env.goversion }}
-      - run: go build ${{ env.build_opts }}
+      - run: go build -o ${{ env.app }} ${{ env.build_opts }}
       - name: Create package
         run: |
           mkdir -p .debpkg/usr/bin
@@ -81,7 +81,7 @@ jobs:
       - uses: actions/setup-go@v1
         with:
           go-version: ${{ env.goversion }}
-      - run: go build ${{ env.build_opts }}
+      - run: go build -o ${{ env.app }} ${{ env.build_opts }}
       - name: Create package
         run: |
           mkdir -p .rpmpkg/usr/bin
